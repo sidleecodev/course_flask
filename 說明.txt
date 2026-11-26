@@ -1,0 +1,23 @@
+flask（Django比較難）
+使用 Python 的 Flask 建立 API，核心是透過路由（@app.route）接收 HTTP 請求（如 GET、POST、PUT、DELETE），處理資料後以 JSON 格式回傳。Flask 屬於輕量級框架，適合快速開發 REST API 或串接機器學習模型。
+
+
+安裝虛擬機器venv，最後一個venv是機器名稱(自取)
+python -m venv venv
+
+開啟執行檔：（目前位置應該是在C:\Users\user\Desktop\flask\1151126）
+.\venv\Scripts\activate
+
+關閉執行檔：
+deactivate
+
+安裝flask套件：
+pip install flask
+
+vscode安裝Black Formatter套件
+
+
+開啟虛擬機器：
+python app.py
+
+使用postman測試有沒有跑起來(預設5000)：http://127.0.0.1:5000
