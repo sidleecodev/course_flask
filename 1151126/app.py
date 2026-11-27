@@ -38,6 +38,14 @@ products = [
 ]
 
 
+#用ID尋找產品的function
+def find_product(id: int):
+    for product in products:
+        if product['id'] == id:
+            return product
+    return None
+
+
 # 建立POST API路由 /product
 @app.route("/product", methods=["POST"])
 def product_add():
@@ -89,6 +97,45 @@ def product_get(id):
 
     return jsonify({"error": "查無此產品"}), 404
 
+
+# 建立 PUT/id API路由 /product/id
+@app.route("/product/<int:id>", methods=["PUT"])
+def product_update(id):
+    try:
+        data = request.get_json()
+        if data is None:
+            raise ValueError
+    except Exception:
+        return jsonify({"error": "請傳送JSON格式的資料"}), 400
+
+    # 取得產品名稱與價格
+    name = data.get("name")
+    price = data.get("price")
+    
+    # 資料驗證
+    if name is not None and not isinstance(name, str):
+        return jsonify({"error" : "產品名稱必須為文字格式"}), 400
+    if price is not None and not isinstance(price, (int, float)):
+        return jsonify({"error" : "產品價格必須為數字格式"}), 400
+    if isinstance(price, (int, float)) and price < 0:
+        return jsonify({"error" : "產品價格不可以是負數"}), 400
+
+    # 尋找要更新的產品
+    target = find_product(id)
+    if target is None:
+        return jsonify({'error' : '查無此產品'})
+    if target is not None:
+        for product in products:
+            if product['id'] != id and product['name'] == name:
+                return jsonify({'error' : '產品名稱已存在，不可以重複'}), 409
+
+    # 執行更新
+    if name is not None:
+        target['name'] = name
+    if price is not None:
+        target['price'] = price
+
+    return jsonify({'message' : '更新成功', 'product' : target}), 200
 
 # 建立 DELETE/id API路由 /product/id
 @app.route("/product/<int:id>", methods=["DELETE"])
