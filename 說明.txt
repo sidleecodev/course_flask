@@ -21,3 +21,9 @@ vscode安裝Black Formatter套件
 python app.py
 
 使用postman測試有沒有跑起來(預設5000)：http://127.0.0.1:5000
+
+
+flask_cors 跨網域的套件，後端跟前端的串接都要使用這個套件
+
+
+vscode安裝SQLite套件（可以看sqlite資料庫內容）
